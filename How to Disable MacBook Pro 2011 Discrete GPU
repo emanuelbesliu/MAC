@@ -1,0 +1,70 @@
+The solution for well known MacBook Pro 2011 GPU issue.
+
+From my experience I can say that a GPU reflow is not worth it such that the problem is temporary fixed (probably one week or two).
+This method disables the Discrete GPU - not usable anymore. 
+Some of you would ask if the MAC's running smoothly with only the integrated GPU. YES, it does (not a huge difference when speaking of basic tasks).
+
+Steps:
+
+1. Shut down your MAC and BOOT in Single User Mode > 
+
+  CMD + S
+  
+2. After all the checks complete type these commands >
+
+nvram fa4ce28d-b62f-4c99-9cc3-6815686e30f9:gpu-power-prefs=%01%00%00%00
+
+reboot
+
+3. BOOT your MAC in Recovery Mode > 
+  
+  CMD + R
+  
+4. When on Recovery Mode > Utilities > Terminal
+5. Press the following command > 
+  
+  csrutil disable
+  
+6. Then check the status >
+  
+  csrutil status - it should be disabled
+  
+7. Reboot the system >
+
+  reboot
+  
+8. BOOT in Single User Mode >
+
+  CMD + S
+
+9. Now we run a File System Check >
+
+  fsck -fy
+  
+10. After finishing we mount the writing access >
+
+  mount -uw /
+  
+11. Creating new directory where all Discrete GPU extensions go >
+
+  mkdir /DisabledExtensions
+  
+12. Moving all the extensions into the newly created directory >
+
+  mv /System/Library/Extensions/AMD* /DisabledExtenstions/
+  
+  FOR NVIDIA GPU SEARCH FOR EXTENSIONS IN
+  
+  cd /System/Library/Extensions/
+  
+  AND MOVE ALL THE NVIDIA EXTENSIONS TO DisabledExtensions DIRECTORY
+  
+  mv /System/Library/Extensions/(extension) /DisabledExtensions/
+  
+13. After completing the moving we're good to go >
+
+  reboot
+  
+-------------------------------------------------------------------------------
+  
+Now everything should be fine, the system will be using only the integrated GPU.
